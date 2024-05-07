@@ -1,14 +1,12 @@
 package helper
 
 import (
-	"errors"
 	"scalexmedia-assignment/pkg/config"
 	interfaces "scalexmedia-assignment/pkg/helper/interface"
 	"scalexmedia-assignment/pkg/utils/models"
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type userHelper struct {
@@ -60,31 +58,4 @@ func (h *userHelper) GenerateToken(name, email string, expirationTime time.Time)
 		return "", err
 	}
 	return tokenString, nil
-}
-
-// ///////////////
-func PasswordHash(password string) (string, error) {
-	hashPassword, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	if err != nil {
-		return "", errors.New("internal server error")
-	}
-	hash := string(hashPassword)
-	return hash, nil
-}
-
-func PasswordHashing(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	if err != nil {
-		return "", errors.New("internal server error")
-	}
-	hash := string(hashedPassword)
-	return hash, nil
-}
-
-func CompareHashAndPassword(a string, b string) error {
-	err := bcrypt.CompareHashAndPassword([]byte(a), []byte(b))
-	if err != nil {
-		return err
-	}
-	return nil
 }
